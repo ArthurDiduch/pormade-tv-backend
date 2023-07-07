@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  pgsql:
+    image: postgres:alpine
+    ports:
+      - '5434:5432'
+    container_name: 'postgresql'
+    restart: always
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: tvpormade
+      POSTGRES_PASSWORD: testeroot
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'tv@pormade.com'
+      PGADMIN_DEFAULT_PASSWORD: 'testeroot123'
+    ports:
+      - '8085:80'
+
+volumes:
+  pg-data:
