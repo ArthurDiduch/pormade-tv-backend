@@ -40,6 +40,10 @@ export class UsersService {
       select: ['id', 'name', 'email', 'createdAt', 'updatedAt'],
     });
   }
+  async findOneOrFail(email: string) {
+    const user = await this.userRepository.findOneOrFail({ where: { email } });
+    return user;
+  }
 
   async findOne(id: number) {
     const user = await this.userRepository.findOneOrFail({
