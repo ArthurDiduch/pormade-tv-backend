@@ -22,6 +22,7 @@ export class VideosService {
       const newVideo = await this.videoRepository.save(createVideoDto);
       return newVideo;
     } catch (error) {
+      console.error(error);
       throw new ConflictException();
     }
   }
