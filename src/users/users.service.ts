@@ -10,6 +10,7 @@ import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import sharp from 'sharp';
 
 const saltRounds = Number(process.env.SALT_ROUNDS);
 
@@ -53,6 +54,14 @@ export class UsersService {
 
     return user;
   }
+  async findImg(id: number) {
+    const imgUser = await this.userRepository.findOneOrFail({
+      where: { id: id },
+      select: ['imgProfile'],
+    });
+
+    return imgUser;
+  }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     try {
@@ -85,5 +94,9 @@ export class UsersService {
     } catch (error) {
       throw new NotFoundException();
     }
+  }
+  async imageToBytes(imagePath: string): Promise<Buffer> {
+    const imageBuffer = await sharp(imagePath).toBuffer();
+    return imageBuffer;
   }
 }

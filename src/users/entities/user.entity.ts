@@ -20,6 +20,9 @@ export class User {
   @Column({ name: 'password', nullable: false })
   password: string;
 
+  @Column({ nullable: true })
+  imgProfile: string;
+
   @CreateDateColumn({ name: 'createdAt' })
   createdAt: string;
 

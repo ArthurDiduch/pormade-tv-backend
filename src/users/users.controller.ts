@@ -9,15 +9,13 @@ import {
   NotFoundException,
   HttpCode,
   ConflictException,
-  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { RequireAuth } from 'src/auth/strategies/jwt.strategy';
 
 @Controller('users')
-@UseGuards(AuthGuard('jwt'))
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -32,12 +30,14 @@ export class UsersController {
   }
 
   @HttpCode(200)
+  @RequireAuth()
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
   @HttpCode(200)
+  @RequireAuth()
   @Get(':id')
   async findOne(@Param('id') id: number) {
     try {
@@ -47,7 +47,19 @@ export class UsersController {
     }
   }
 
+  @HttpCode(200)
+  @RequireAuth()
+  @Get('img/:id')
+  async findImg(@Param('id') id: number) {
+    try {
+      return await this.usersService.findImg(id);
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
+
   @HttpCode(201)
+  @RequireAuth()
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     try {
@@ -58,6 +70,7 @@ export class UsersController {
   }
 
   @HttpCode(204)
+  @RequireAuth()
   @Delete(':id')
   remove(@Param('id') id: number) {
     try {
