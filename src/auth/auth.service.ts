@@ -13,11 +13,21 @@ export class AuthService {
 
   async login(user) {
     const payload = { sub: user.id, email: user.email };
+    const token = this.jwtService.sign(payload);
     return {
-      token: this.jwtService.sign(payload),
+      token,
       name: user.name,
       id: user.id,
     };
+  }
+  async validateToken(token) {
+    const verify = this.jwtService.verify(token, {
+      secret: process.env.PRIVATE_KEY,
+    });
+    if (!verify) {
+      return false;
+    }
+    return true;
   }
 
   async validateUser(email: string, password: string) {
