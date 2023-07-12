@@ -19,6 +19,7 @@ export class VideosService {
 
   async create(createVideoDto: CreateVideoDto) {
     try {
+      createVideoDto.image = createVideoDto.image + `][`;
       const newVideo = await this.videoRepository.save(createVideoDto);
       return newVideo;
     } catch (error) {

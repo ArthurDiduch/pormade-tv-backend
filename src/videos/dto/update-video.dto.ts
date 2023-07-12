@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateVideoDto } from './create-video.dto';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class UpdateVideoDto extends PartialType(CreateVideoDto) {
   @IsNotEmpty()
@@ -21,5 +21,8 @@ export class UpdateVideoDto extends PartialType(CreateVideoDto) {
 
   @IsNotEmpty()
   @IsString()
-  videoId: string;
+  video_id: string;
+
+  @IsOptional()
+  createdAt: string;
 }

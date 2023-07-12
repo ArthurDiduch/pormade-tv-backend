@@ -8,6 +8,7 @@ import {
   Delete,
   ConflictException,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { CreateVideoDto } from './dto/create-video.dto';
