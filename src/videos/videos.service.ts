@@ -39,6 +39,15 @@ export class VideosService {
     return video;
   }
 
+  async findByTitle(title: string) {
+    try {
+      const video = await this.videoRepository.query(
+        `SELECT * FROM public.video where title='${title}'`,
+      );
+      return video;
+    } catch (error) {}
+  }
+
   async update(id: number, updateVideoDto: UpdateVideoDto) {
     try {
       const updatedVideo = await this.videoRepository.update(

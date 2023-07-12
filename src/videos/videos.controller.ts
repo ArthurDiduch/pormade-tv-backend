@@ -41,6 +41,16 @@ export class VideosController {
     }
   }
 
+  @Post('/busca')
+  async findByTitle(@Body('title') title: string) {
+    try {
+      const video = await this.videosService.findByTitle(title);
+      return video;
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
+
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateVideoDto: UpdateVideoDto) {
     try {

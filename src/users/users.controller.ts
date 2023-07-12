@@ -9,11 +9,13 @@ import {
   NotFoundException,
   HttpCode,
   ConflictException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { RequireAuth } from 'src/auth/strategies/jwt.strategy';
+import { UpdatePasswordDto } from './dto/update-passwrod.dto';
 
 @Controller('users')
 export class UsersController {
@@ -55,6 +57,18 @@ export class UsersController {
       return await this.usersService.findImg(id);
     } catch (error) {
       throw new NotFoundException();
+    }
+  }
+
+  @Patch('password/:id')
+  async updatePassword(
+    @Param('id') id: number,
+    @Body() updatePassword: UpdatePasswordDto,
+  ) {
+    try {
+      return await this.usersService.updatePassword(id, updatePassword);
+    } catch (error) {
+      throw new UnauthorizedException();
     }
   }
 

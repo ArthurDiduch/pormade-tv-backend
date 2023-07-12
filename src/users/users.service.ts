@@ -3,6 +3,7 @@ import {
   HttpException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -11,6 +12,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import sharp from 'sharp';
+import { UpdatePasswordDto } from './dto/update-passwrod.dto';
 
 const saltRounds = Number(process.env.SALT_ROUNDS);
 
@@ -49,8 +51,9 @@ export class UsersService {
   async findOne(id: number) {
     const user = await this.userRepository.findOneOrFail({
       where: { id: id },
-      select: ['id', 'name', 'email', 'createdAt', 'updatedAt'],
+      select: ['id', 'name', 'email', 'createdAt', 'updatedAt', 'password'],
     });
+    console.log(user);
 
     return user;
   }
@@ -61,6 +64,41 @@ export class UsersService {
     });
 
     return imgUser;
+  }
+
+  async updatePassword(id: number, updatePassword: UpdatePasswordDto) {
+    try {
+      const user = await this.userRepository.findOneOrFail({
+        where: { id: id },
+        select: ['password'],
+      });
+      const password = user.password;
+      const compare = bcrypt.compareSync(
+        updatePassword.currentPassword,
+        password,
+      );
+
+      console.log(this.update);
+      if (!compare) {
+        throw new UnauthorizedException();
+      }
+
+      const salt = bcrypt.genSaltSync(saltRounds);
+      updatePassword.password = bcrypt.hashSync(
+        String(updatePassword.password),
+        salt,
+      );
+      delete updatePassword.currentPassword;
+      const updatedPassword = await this.userRepository.update(
+        { id },
+        updatePassword,
+      );
+      if (!updatedPassword) {
+        throw new ConflictException();
+      }
+    } catch (error) {
+      throw new HttpException(error.status, error.message);
+    }
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
