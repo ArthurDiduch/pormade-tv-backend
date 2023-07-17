@@ -40,6 +40,14 @@ export class VideosController {
       throw new NotFoundException();
     }
   }
+  @Get('/lastvideo/:id')
+  async findLastVideo(@Param('id') id: number) {
+    try {
+      return await this.videosService.findLastVideo(id);
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
 
   @Post('/busca')
   async findByTitle(@Body('title') title: string) {

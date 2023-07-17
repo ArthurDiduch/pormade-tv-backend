@@ -78,7 +78,6 @@ export class UsersService {
         password,
       );
 
-      console.log(this.update);
       if (!compare) {
         throw new UnauthorizedException();
       }
@@ -113,7 +112,7 @@ export class UsersService {
       }
       return this.userRepository.findOneOrFail({
         where: { id: id },
-        select: ['id', 'name', 'email', 'createdAt', 'updatedAt'],
+        select: ['id', 'name', 'email', 'createdAt', 'updatedAt', 'lastvideo'],
       });
     } catch (error) {
       throw new HttpException(error.status, error.message);

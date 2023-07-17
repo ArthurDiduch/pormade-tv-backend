@@ -1,7 +1,10 @@
+import { Video } from 'src/videos/entities/video.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -28,4 +31,11 @@ export class User {
 
   @UpdateDateColumn({ name: 'updatedAt' })
   updatedAt: string;
+
+  @Column({ name: 'lastvideo', nullable: true })
+  lastvideo: number;
+
+  @ManyToOne(() => Video, (video) => video.user)
+  @JoinColumn({ name: 'lastvideo', referencedColumnName: 'id' })
+  video: Video;
 }

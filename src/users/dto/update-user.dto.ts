@@ -9,4 +9,7 @@ export class UpdateUserDto {
 
   @IsOptional()
   imgProfile: string;
+
+  @IsOptional()
+  lastvideo: number;
 }

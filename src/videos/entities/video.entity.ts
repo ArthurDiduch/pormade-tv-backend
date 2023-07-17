@@ -1,7 +1,9 @@
+import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -25,6 +27,12 @@ export class Video {
   @Column({ unique: true })
   video_id: string;
 
+  @Column({ nullable: true })
+  duration: number;
+
   @CreateDateColumn({ name: 'createdAt' })
   createdAt: string;
+
+  @OneToMany(() => User, (user) => user.video)
+  user: User[];
 }

@@ -73,7 +73,7 @@ export class UsersController {
   }
 
   @HttpCode(201)
-  @RequireAuth()
+  //@RequireAuth()
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     try {
