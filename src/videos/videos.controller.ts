@@ -52,9 +52,12 @@ export class VideosController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateVideoDto: UpdateVideoDto) {
+  async update(
+    @Param('id') id: number,
+    @Body() updateVideoDto: UpdateVideoDto,
+  ) {
     try {
-      return this.videosService.update(id, updateVideoDto);
+      return await this.videosService.update(id, updateVideoDto);
     } catch (error) {
       throw new NotFoundException();
     }

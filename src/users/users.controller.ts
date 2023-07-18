@@ -48,18 +48,6 @@ export class UsersController {
       throw new NotFoundException();
     }
   }
-
-  @HttpCode(200)
-  @RequireAuth()
-  @Get('img/:id')
-  async findImg(@Param('id') id: number) {
-    try {
-      return await this.usersService.findImg(id);
-    } catch (error) {
-      throw new NotFoundException();
-    }
-  }
-
   //@RequireAuth()
   @Patch('password/:id')
   async updatePassword(
@@ -69,7 +57,7 @@ export class UsersController {
     try {
       return await this.usersService.updatePassword(id, updatePassword);
     } catch (error) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(error.status);
     }
   }
 

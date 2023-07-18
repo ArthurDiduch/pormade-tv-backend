@@ -1,8 +1,11 @@
+import { Category } from 'src/categories/entities/category.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -32,6 +35,13 @@ export class Video {
 
   @CreateDateColumn({ name: 'createdAt' })
   createdAt: string;
+
+  @Column({ name: 'category', nullable: true })
+  category: number;
+
+  @ManyToOne(() => Category, (category) => category.video)
+  @JoinColumn({ name: 'category', referencedColumnName: 'id' })
+  categories: Category;
 
   @OneToMany(() => User, (user) => user.video)
   user: User[];

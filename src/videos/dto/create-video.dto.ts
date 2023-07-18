@@ -20,4 +20,7 @@ export class CreateVideoDto {
   @IsNotEmpty()
   @IsString()
   video_id: string;
+
+  @IsNotEmpty()
+  category: number;
 }

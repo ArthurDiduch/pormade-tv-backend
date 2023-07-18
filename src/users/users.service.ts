@@ -58,15 +58,6 @@ export class UsersService {
     return Object.assign(user);
   }
 
-  async findImg(id: number) {
-    const imgUser = await this.userRepository.findOneOrFail({
-      where: { id: id },
-      select: ['imgProfile'],
-    });
-
-    return imgUser;
-  }
-
   async updatePassword(id: number, updatePassword: UpdatePasswordDto) {
     try {
       const user = await this.userRepository.findOneOrFail({
@@ -81,6 +72,10 @@ export class UsersService {
 
       if (!compare) {
         throw new UnauthorizedException();
+      }
+
+      if (updatePassword.currentPassword == updatePassword.password) {
+        throw new ConflictException();
       }
 
       const salt = bcrypt.genSaltSync(saltRounds);
@@ -109,14 +104,14 @@ export class UsersService {
       );
 
       if (!updatedUser) {
-        throw new ConflictException();
+        throw new UnauthorizedException();
       }
       return this.userRepository.findOneOrFail({
         where: { id: id },
         select: ['id', 'name', 'email', 'createdAt', 'updatedAt', 'lastvideo'],
       });
     } catch (error) {
-      throw new HttpException(error.status, error.message);
+      throw new ConflictException();
     }
   }
 
