@@ -39,7 +39,7 @@ export class UsersController {
   }
 
   @HttpCode(200)
-  @RequireAuth()
+  // @RequireAuth()
   @Get(':id')
   async findOne(@Param('id') id: number) {
     try {
@@ -60,6 +60,7 @@ export class UsersController {
     }
   }
 
+  //@RequireAuth()
   @Patch('password/:id')
   async updatePassword(
     @Param('id') id: number,
@@ -73,7 +74,7 @@ export class UsersController {
   }
 
   @HttpCode(201)
-  //@RequireAuth()
+  @RequireAuth()
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     try {

@@ -40,32 +40,10 @@ export class VideosService {
 
   async findByTitle(title: string) {
     try {
-      //const video = await this.videoRepository.query(
-      //  `SELECT * FROM PUBLIC.video WHERE title='${title}'`,
-      //);
-      return await this.videoRepository.findOneByOrFail({ title });
-    } catch (error) {
-      throw new HttpException(error.response, error.status);
-    }
-  }
-
-  async findLastVideo(idUser: number) {
-    try {
-      return await this.videoRepository.query(
-        `SELECT vd.id, image, title, lauch, video_id, link 
-        FROM video vd 
-        INNER JOIN PUBLIC.user us 
-        ON vd.id = us.lastvideo 
-        WHERE us.id=${idUser}`,
+      const video = await this.videoRepository.query(
+        `SELECT * FROM PUBLIC.video WHERE title='${title}'`,
       );
-      // return await this.videoRepository
-      //   .createQueryBuilder('vd')
-      //   .select('vd.id')
-      //   .addSelect('vd.image')
-      //   .addSelect('vd.title')
-      //   .addSelect('vd.lauch')
-      //   .innerJoin('user', 'us')
-      //   .where('us.id = vd.id');
+      return video;
     } catch (error) {
       throw new HttpException(error.response, error.status);
     }

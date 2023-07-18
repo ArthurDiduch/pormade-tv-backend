@@ -50,13 +50,14 @@ export class UsersService {
 
   async findOne(id: number) {
     const user = await this.userRepository.findOneOrFail({
+      select: ['id', 'name', 'email', 'video', 'imgProfile'],
       where: { id: id },
-      select: ['id', 'name', 'email', 'createdAt', 'updatedAt', 'password'],
+      relations: { video: true },
     });
-    console.log(user);
 
-    return user;
+    return Object.assign(user);
   }
+
   async findImg(id: number) {
     const imgUser = await this.userRepository.findOneOrFail({
       where: { id: id },
