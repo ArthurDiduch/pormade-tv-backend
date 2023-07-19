@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { UserRole } from './user-role.enum';
 
 @Entity()
 export class User {
@@ -34,6 +35,14 @@ export class User {
 
   @Column({ name: 'lastvideo', nullable: true })
   lastvideo: number;
+
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    array: true,
+    default: [UserRole.CUSTOMER],
+  })
+  roles: UserRole[];
 
   @ManyToOne(() => Video, (video) => video.user)
   @JoinColumn({ name: 'lastvideo', referencedColumnName: 'id' })

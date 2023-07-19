@@ -32,14 +32,14 @@ export class UsersController {
   }
 
   @HttpCode(200)
-  @RequireAuth()
+  //@RequireAuth()
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
   @HttpCode(200)
-  // @RequireAuth()
+  //@RequireAuth()
   @Get(':id')
   async findOne(@Param('id') id: number) {
     try {
@@ -48,6 +48,7 @@ export class UsersController {
       throw new NotFoundException();
     }
   }
+
   //@RequireAuth()
   @Patch('password/:id')
   async updatePassword(

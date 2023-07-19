@@ -25,4 +25,7 @@ export class UpdateVideoDto extends PartialType(CreateVideoDto) {
 
   @IsOptional()
   createdAt: string;
+
+  @IsOptional()
+  category: number;
 }

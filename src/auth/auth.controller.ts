@@ -1,14 +1,18 @@
 import {
+  Body,
   Controller,
   HttpCode,
   HttpStatus,
   Post,
+  Put,
   Req,
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
+import { RequireRoles } from './require-role.guard';
+import { UserRole } from 'src/users/entities/user-role.enum';
 
 @Controller('auth')
 export class AuthController {
