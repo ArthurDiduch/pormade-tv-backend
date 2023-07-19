@@ -11,7 +11,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserRole } from 'src/users/entities/user-role.enum';
 import { User } from 'src/users/entities/user.entity';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 export const RequireRoles = (...requiredRoles: UserRole[]) => {
   @Injectable()
