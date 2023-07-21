@@ -32,6 +32,20 @@ export class CategoriesService {
     return await this.categoryRepository.findOneOrFail({ where: { id } });
   }
 
+  async findByName(name: string) {
+    try {
+      const category = await this.categoryRepository.query(
+        `SELECT * FROM PUBLIC.category WHERE name='${name}'`,
+      );
+      if (!category) {
+        throw new NotFoundException();
+      }
+      return category;
+    } catch (error) {
+      throw new ConflictException();
+    }
+  }
+
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
     try {
       const updatedCategory = await this.categoryRepository.update(

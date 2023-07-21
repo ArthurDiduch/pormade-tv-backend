@@ -8,30 +8,39 @@ import {
   Delete,
   ConflictException,
   NotFoundException,
-  Query,
 } from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
+import { RequireRoles } from 'src/auth/require-role.guard';
+import { UserRole } from 'src/users/entities/user-role.enum';
+import { CategoriesService } from 'src/categories/categories.service';
+import { Certificate } from 'crypto';
 
 @Controller('videos')
 export class VideosController {
-  constructor(private readonly videosService: VideosService) {}
+  constructor(
+    private readonly videosService: VideosService,
+    private readonly categoryService: CategoriesService,
+  ) {}
 
+  @RequireRoles(UserRole.ADMIN)
   @Post()
-  create(@Body() createVideoDto: CreateVideoDto) {
+  async create(@Body() createVideoDto: CreateVideoDto) {
     try {
-      return this.videosService.create(createVideoDto);
+      return await this.videosService.create(createVideoDto);
     } catch (error) {
       throw new ConflictException();
     }
   }
 
+  @RequireRoles()
   @Get()
   findAll() {
     return this.videosService.findAll();
   }
 
+  @RequireRoles()
   @Get(':id')
   async findOne(@Param('id') id: number) {
     try {
@@ -41,6 +50,7 @@ export class VideosController {
     }
   }
 
+  @RequireRoles()
   @Post('/busca')
   async findByTitle(@Body('title') title: string) {
     try {
@@ -51,6 +61,7 @@ export class VideosController {
     }
   }
 
+  @RequireRoles(UserRole.ADMIN)
   @Patch(':id')
   async update(
     @Param('id') id: number,
@@ -63,6 +74,7 @@ export class VideosController {
     }
   }
 
+  @RequireRoles(UserRole.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: number) {
     try {

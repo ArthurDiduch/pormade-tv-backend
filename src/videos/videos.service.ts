@@ -43,6 +43,9 @@ export class VideosService {
       const video = await this.videoRepository.query(
         `SELECT * FROM PUBLIC.video WHERE title='${title}'`,
       );
+      if (!video) {
+        throw new NotFoundException();
+      }
       return video;
     } catch (error) {
       throw new HttpException(error.response, error.status);

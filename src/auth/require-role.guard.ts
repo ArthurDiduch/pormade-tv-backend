@@ -41,7 +41,7 @@ export const RequireRoles = (...requiredRoles: UserRole[]) => {
           email: payloadUser.email,
         });
       } catch (error) {
-        throw new NotFoundException();
+        throw new UnauthorizedException();
       }
 
       if (requiredRoles.length < 1) {

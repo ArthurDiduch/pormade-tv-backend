@@ -40,7 +40,8 @@ export class UsersService {
 
   async findAll() {
     return await this.userRepository.find({
-      select: ['id', 'name', 'email', 'createdAt', 'updatedAt'],
+      select: ['id', 'name', 'roles', 'email', 'createdAt', 'updatedAt'],
+      relations: { video: true },
     });
   }
   async findOneOrFail(email: string) {
@@ -50,12 +51,18 @@ export class UsersService {
 
   async findOne(id: number) {
     const user = await this.userRepository.findOneOrFail({
-      select: ['id', 'name', 'email', 'video', 'imgProfile'],
-      where: { id: id },
+      select: ['id', 'name', 'email', 'video', 'roles', 'imgProfile'],
+      where: { id },
       relations: { video: true },
     });
 
-    return Object.assign(user);
+    /* console.log(user);
+
+    user.video.map((video) => {
+      delete video.id;;
+    }) */
+
+    return user;
   }
 
   async updatePassword(id: number, updatePassword: UpdatePasswordDto) {

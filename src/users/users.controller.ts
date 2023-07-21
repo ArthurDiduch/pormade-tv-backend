@@ -14,8 +14,8 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { RequireAuth } from 'src/auth/strategies/jwt.strategy';
 import { UpdatePasswordDto } from './dto/update-passwrod.dto';
+import { RequireRoles } from 'src/auth/require-role.guard';
 
 @Controller('users')
 export class UsersController {
@@ -32,14 +32,14 @@ export class UsersController {
   }
 
   @HttpCode(200)
-  //@RequireAuth()
+  @RequireRoles()
   @Get()
   findAll() {
     return this.usersService.findAll();
   }
 
   @HttpCode(200)
-  //@RequireAuth()
+  @RequireRoles()
   @Get(':id')
   async findOne(@Param('id') id: number) {
     try {
@@ -49,7 +49,7 @@ export class UsersController {
     }
   }
 
-  //@RequireAuth()
+  @RequireRoles()
   @Patch('password/:id')
   async updatePassword(
     @Param('id') id: number,
@@ -63,7 +63,7 @@ export class UsersController {
   }
 
   @HttpCode(201)
-  @RequireAuth()
+  @RequireRoles()
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     try {
@@ -74,7 +74,7 @@ export class UsersController {
   }
 
   @HttpCode(204)
-  @RequireAuth()
+  @RequireRoles()
   @Delete(':id')
   remove(@Param('id') id: number) {
     try {
