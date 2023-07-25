@@ -49,6 +49,14 @@ export class VideosController {
       throw new NotFoundException();
     }
   }
+  @Get('category/:category')
+  async findByCategory(@Param('category') category: number) {
+    try {
+      return await this.videosService.findByCategory(category);
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
 
   @RequireRoles()
   @Post('/busca')

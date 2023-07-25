@@ -38,6 +38,19 @@ export class VideosService {
     return video;
   }
 
+  async findByCategory(category: number) {
+    try {
+      console.log(category);
+      const videos = await this.videoRepository.find({
+        where: { category },
+      });
+      console.log(videos);
+      return videos;
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
+
   async findByTitle(title: string) {
     try {
       const video = await this.videoRepository.query(
