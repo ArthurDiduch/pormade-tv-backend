@@ -40,10 +40,10 @@ export class CategoriesController {
     }
   }
   @Post('/busca')
-  async findByName(@Body('name') name: string) {
+  async findByName(@Body('category') category: number) {
     try {
-      const category = await this.categoriesService.findByName(name);
-      return category;
+      const categoryId = await this.categoriesService.findByName(category);
+      return categoryId;
     } catch (error) {
       throw new NotFoundException();
     }

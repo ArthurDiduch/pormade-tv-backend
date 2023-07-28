@@ -15,7 +15,7 @@ import { UpdateVideoDto } from './dto/update-video.dto';
 import { RequireRoles } from 'src/auth/require-role.guard';
 import { UserRole } from 'src/users/entities/user-role.enum';
 import { CategoriesService } from 'src/categories/categories.service';
-import { Certificate } from 'crypto';
+import { CreateCategoryDto } from 'src/categories/dto/create-category.dto';
 
 @Controller('videos')
 export class VideosController {
@@ -24,10 +24,26 @@ export class VideosController {
     private readonly categoryService: CategoriesService,
   ) {}
 
-  @RequireRoles(UserRole.ADMIN)
+  //@RequireRoles(UserRole.ADMIN)
   @Post()
   async create(@Body() createVideoDto: CreateVideoDto) {
     try {
+      const categoryId = await this.categoryService.findByName(
+        createVideoDto.category,
+      );
+      if (categoryId == false) {
+        const name = createVideoDto.category.toString();
+        const createCategoryDto: CreateCategoryDto = { name };
+
+        const newCategory = await this.categoryService.create(
+          createCategoryDto,
+        );
+
+        createVideoDto.category = newCategory;
+        return await this.videosService.create(createVideoDto);
+      }
+
+      createVideoDto.category = categoryId;
       return await this.videosService.create(createVideoDto);
     } catch (error) {
       throw new ConflictException();
@@ -49,6 +65,7 @@ export class VideosController {
       throw new NotFoundException();
     }
   }
+  @RequireRoles()
   @Get('category/:category')
   async findByCategory(@Param('category') category: number) {
     try {

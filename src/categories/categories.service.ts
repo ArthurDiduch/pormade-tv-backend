@@ -18,7 +18,8 @@ export class CategoriesService {
 
   async create(createCategoryDto: CreateCategoryDto) {
     try {
-      return await this.categoryRepository.save(createCategoryDto);
+      const newCategory = await this.categoryRepository.save(createCategoryDto);
+      return newCategory.id;
     } catch (error) {
       throw new ConflictException();
     }
@@ -32,17 +33,26 @@ export class CategoriesService {
     return await this.categoryRepository.findOneOrFail({ where: { id } });
   }
 
-  async findByName(name: string) {
+  async findByName(category: number) {
     try {
-      const category = await this.categoryRepository.query(
-        `SELECT * FROM PUBLIC.category WHERE name='${name}'`,
+      const findcategory = await this.categoryRepository.query(
+        `SELECT * FROM PUBLIC.category WHERE name='${category}'`,
       );
-      if (!category) {
+      if (!findcategory) {
         throw new NotFoundException();
       }
-      return category;
+      // if (Object.keys(findcategory).length == 0) {
+      //   console.log(`CRIAR UMA NOVA COM O NOME:  ${name}`);
+      // const name = category.toString();
+      //   const createCategoryDto: CreateCategoryDto = { name };
+
+      //   await this.CategoriesService.create(createCategoryDto);
+      // }
+
+      console.log(findcategory[0].id);
+      return findcategory[0].id;
     } catch (error) {
-      throw new ConflictException();
+      return false;
     }
   }
 

@@ -40,11 +40,9 @@ export class VideosService {
 
   async findByCategory(category: number) {
     try {
-      console.log(category);
       const videos = await this.videoRepository.find({
         where: { category },
       });
-      console.log(videos);
       return videos;
     } catch (error) {
       throw new NotFoundException();
