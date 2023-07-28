@@ -22,6 +22,5 @@ export class CreateVideoDto {
   video_id: string;
 
   @IsOptional()
-  @IsNotEmpty()
   category: number;
 }

@@ -41,15 +41,6 @@ export class CategoriesService {
       if (!findcategory) {
         throw new NotFoundException();
       }
-      // if (Object.keys(findcategory).length == 0) {
-      //   console.log(`CRIAR UMA NOVA COM O NOME:  ${name}`);
-      // const name = category.toString();
-      //   const createCategoryDto: CreateCategoryDto = { name };
-
-      //   await this.CategoriesService.create(createCategoryDto);
-      // }
-
-      console.log(findcategory[0].id);
       return findcategory[0].id;
     } catch (error) {
       return false;

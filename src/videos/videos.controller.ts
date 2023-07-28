@@ -28,23 +28,28 @@ export class VideosController {
   @Post()
   async create(@Body() createVideoDto: CreateVideoDto) {
     try {
-      const categoryId = await this.categoryService.findByName(
-        createVideoDto.category,
-      );
-      if (categoryId == false) {
-        const name = createVideoDto.category.toString();
-        const createCategoryDto: CreateCategoryDto = { name };
-
-        const newCategory = await this.categoryService.create(
-          createCategoryDto,
+      if (Object.keys(createVideoDto.category).length === 0) {
+        delete createVideoDto.category;
+        return await this.videosService.create(createVideoDto);
+      } else {
+        const categoryId = await this.categoryService.findByName(
+          createVideoDto.category,
         );
+        if (categoryId == false) {
+          const name = createVideoDto.category.toString();
+          const createCategoryDto: CreateCategoryDto = { name };
 
-        createVideoDto.category = newCategory;
+          const newCategory = await this.categoryService.create(
+            createCategoryDto,
+          );
+
+          createVideoDto.category = newCategory;
+          return await this.videosService.create(createVideoDto);
+        }
+        createVideoDto.category = categoryId;
+
         return await this.videosService.create(createVideoDto);
       }
-
-      createVideoDto.category = categoryId;
-      return await this.videosService.create(createVideoDto);
     } catch (error) {
       throw new ConflictException();
     }
@@ -93,7 +98,28 @@ export class VideosController {
     @Body() updateVideoDto: UpdateVideoDto,
   ) {
     try {
-      return await this.videosService.update(id, updateVideoDto);
+      if (Object.keys(updateVideoDto.category).length === 0) {
+        delete updateVideoDto.category;
+        return await this.videosService.update(id, updateVideoDto);
+      } else {
+        const categoryId = await this.categoryService.findByName(
+          updateVideoDto.category,
+        );
+        if (categoryId == false) {
+          const name = updateVideoDto.category.toString();
+          const createCategoryDto: CreateCategoryDto = { name };
+
+          const newCategory = await this.categoryService.create(
+            createCategoryDto,
+          );
+
+          updateVideoDto.category = newCategory;
+          return await this.videosService.update(id, updateVideoDto);
+        }
+        updateVideoDto.category = categoryId;
+
+        return await this.videosService.update(id, updateVideoDto);
+      }
     } catch (error) {
       throw new NotFoundException();
     }
