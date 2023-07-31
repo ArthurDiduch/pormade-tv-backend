@@ -24,7 +24,7 @@ export class VideosController {
     private readonly categoryService: CategoriesService,
   ) {}
 
-  //@RequireRoles(UserRole.ADMIN)
+  @RequireRoles(UserRole.ADMIN)
   @Post()
   async create(@Body() createVideoDto: CreateVideoDto) {
     try {

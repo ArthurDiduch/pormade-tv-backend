@@ -12,4 +12,7 @@ export class UpdateUserDto {
 
   @IsOptional()
   lastvideo: number;
+
+  @IsOptional()
+  videosWatched: number;
 }

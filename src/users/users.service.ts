@@ -55,13 +55,6 @@ export class UsersService {
       where: { id },
       relations: { video: true },
     });
-
-    /* console.log(user);
-
-    user.video.map((video) => {
-      delete video.id;;
-    }) */
-
     return user;
   }
 
@@ -105,6 +98,13 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     try {
+      if (updateUserDto.lastvideo != null) {
+        const videosWatched = await this.userRepository.query(
+          `SELECT "videosWatched" FROM PUBLIC.user where id=${id}`,
+        );
+        updateUserDto.videosWatched = videosWatched[0].videosWatched + 1;
+      }
+
       const updatedUser = await this.userRepository.update(
         { id },
         updateUserDto,
