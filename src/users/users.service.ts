@@ -40,7 +40,15 @@ export class UsersService {
 
   async findAll() {
     return await this.userRepository.find({
-      select: ['id', 'name', 'roles', 'email', 'createdAt', 'updatedAt'],
+      select: [
+        'id',
+        'name',
+        'roles',
+        'email',
+        'createdAt',
+        'updatedAt',
+        'videosWatched',
+      ],
       relations: { video: true },
     });
   }
@@ -51,7 +59,15 @@ export class UsersService {
 
   async findOne(id: number) {
     const user = await this.userRepository.findOneOrFail({
-      select: ['id', 'name', 'email', 'video', 'roles', 'imgProfile'],
+      select: [
+        'id',
+        'name',
+        'email',
+        'video',
+        'roles',
+        'imgProfile',
+        'videosWatched',
+      ],
       where: { id },
       relations: { video: true },
     });
