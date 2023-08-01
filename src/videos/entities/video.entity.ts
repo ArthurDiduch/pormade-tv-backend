@@ -1,4 +1,5 @@
 import { Category } from 'src/categories/entities/category.entity';
+import { Favorite } from 'src/favorites/entities/favorite.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,
@@ -45,4 +46,7 @@ export class Video {
 
   @OneToMany(() => User, (user) => user.video)
   user: User[];
+
+  @OneToMany(() => Favorite, (favorite) => favorite.idVideo)
+  idFavorite: Favorite[];
 }

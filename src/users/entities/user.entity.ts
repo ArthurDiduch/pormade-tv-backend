@@ -5,10 +5,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { UserRole } from './user-role.enum';
+import { Favorite } from 'src/favorites/entities/favorite.entity';
 
 @Entity()
 export class User {
@@ -55,4 +57,7 @@ export class User {
   @ManyToOne(() => Video, (video) => video.user)
   @JoinColumn({ name: 'lastvideo', referencedColumnName: 'id' })
   video: Video;
+
+  @OneToMany(() => Favorite, (favorite) => favorite.idUser)
+  idFavorite: Favorite[];
 }

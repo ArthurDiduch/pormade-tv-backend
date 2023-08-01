@@ -69,6 +69,7 @@ export class VideosService {
         id,
         updateVideoDto,
       );
+
       if (!updatedVideo) {
         throw new ConflictException();
       }

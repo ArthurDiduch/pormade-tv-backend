@@ -68,7 +68,11 @@ export class CategoriesController {
 
   @RequireRoles(UserRole.ADMIN)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.categoriesService.remove(+id);
+  remove(@Param('id') id: number) {
+    try {
+      return this.categoriesService.remove(id);
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 }
