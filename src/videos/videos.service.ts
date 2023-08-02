@@ -87,7 +87,7 @@ export class VideosService {
       if (!deletedVideo) {
         throw new ConflictException();
       }
-      this.videoRepository.delete({ id: id });
+      this.videoRepository.delete({ id });
     } catch (error) {
       throw new NotFoundException();
     }

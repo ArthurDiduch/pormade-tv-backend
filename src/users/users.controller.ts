@@ -63,11 +63,16 @@ export class UsersController {
   }
 
   @HttpCode(201)
-  @RequireRoles()
+  //@RequireRoles()
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     try {
-      return await this.usersService.update(id, updateUserDto);
+      const updatedUser = await this.usersService.update(id, updateUserDto);
+
+      if (updateUserDto.lastvideo != null) {
+        console.log(`CHAMAR ROTA`);
+      }
+      return updatedUser;
     } catch (error) {
       throw new NotFoundException();
     }
