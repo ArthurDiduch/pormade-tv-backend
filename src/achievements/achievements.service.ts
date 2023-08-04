@@ -8,7 +8,7 @@ import { UpdateAchievementDto } from './dto/update-achievement.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Achievement } from './entities/achievement.entity';
 import { Repository } from 'typeorm';
-import { NotFoundError } from 'rxjs';
+import { CreateUserAchievementDto } from './dto/create-user-achievement.dto';
 
 @Injectable()
 export class AchievementsService {
@@ -23,6 +23,35 @@ export class AchievementsService {
     } catch (error) {
       throw new ConflictException();
     }
+  }
+
+  async createUserAchievements(
+    createUserAchievementsDto: CreateUserAchievementDto,
+  ) {
+    try {
+      await this.achievementRepository.query(
+        `INSERT INTO PUBLIC."user-achievement" ("achievementId", "userId") VALUES (${createUserAchievementsDto.achievementId},${createUserAchievementsDto.userId})`,
+      );
+    } catch (error) {
+      throw new ConflictException();
+    }
+  }
+
+  async verifyAchievements(idUser: number, videosWatched: number) {
+    const achievements = await this.achievementRepository.find({
+      select: ['id', 'requiredVideos'],
+    });
+
+    for (let i = 0; i < achievements.length; i++) {
+      if (achievements[i].requiredVideos === videosWatched) {
+        const achievement = {
+          achievementId: achievements[i].id,
+          userId: idUser,
+        };
+        return achievement;
+      }
+    }
+    return false;
   }
 
   async findAll() {

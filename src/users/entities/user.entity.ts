@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -11,6 +12,7 @@ import {
 } from 'typeorm';
 import { UserRole } from './user-role.enum';
 import { Favorite } from 'src/favorites/entities/favorite.entity';
+import { Achievement } from 'src/achievements/entities/achievement.entity';
 
 @Entity()
 export class User {
@@ -60,4 +62,7 @@ export class User {
 
   @OneToMany(() => Favorite, (favorite) => favorite.idUser)
   idFavorite: Favorite[];
+
+  @ManyToMany(() => Achievement, (achievement) => achievement.id_user)
+  id_achievement: Achievement;
 }

@@ -8,17 +8,18 @@ import {
   Delete,
   ConflictException,
   NotFoundException,
-  HttpException,
 } from '@nestjs/common';
 import { AchievementsService } from './achievements.service';
 import { CreateAchievementDto } from './dto/create-achievement.dto';
 import { UpdateAchievementDto } from './dto/update-achievement.dto';
-import { NotFoundError } from 'rxjs';
+import { RequireRoles } from 'src/auth/require-role.guard';
+import { UserRole } from 'src/users/entities/user-role.enum';
 
 @Controller('achievements')
 export class AchievementsController {
   constructor(private readonly achievementsService: AchievementsService) {}
 
+  // @RequireRoles(UserRole.ADMIN)
   @Post()
   async create(@Body() createAchievementDto: CreateAchievementDto) {
     try {
@@ -28,6 +29,7 @@ export class AchievementsController {
     }
   }
 
+  // @RequireRoles(UserRole.ADMIN)
   @Get()
   async findAll() {
     try {
@@ -37,6 +39,7 @@ export class AchievementsController {
     }
   }
 
+  // @RequireRoles(UserRole.ADMIN)
   @Get(':id')
   async findOne(@Param('id') id: number) {
     try {
@@ -46,6 +49,7 @@ export class AchievementsController {
     }
   }
 
+  // @RequireRoles(UserRole.ADMIN)
   @Patch(':id')
   async update(
     @Param('id') id: number,
@@ -58,6 +62,7 @@ export class AchievementsController {
     }
   }
 
+  // @RequireRoles(UserRole.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: number) {
     try {

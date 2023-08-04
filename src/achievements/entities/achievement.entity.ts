@@ -1,11 +1,18 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Achievement {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @Column({
@@ -13,6 +20,10 @@ export class Achievement {
   })
   image: string;
 
-  @Column()
+  @Column({ unique: true })
   requiredVideos: number;
+
+  @ManyToMany(() => User, (user) => user.id_achievement)
+  @JoinTable({ name: 'user-achievement' })
+  id_user: User[];
 }

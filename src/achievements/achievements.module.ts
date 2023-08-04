@@ -9,5 +9,6 @@ import { User } from 'src/users/entities/user.entity';
   imports: [TypeOrmModule.forFeature([Achievement, User])],
   controllers: [AchievementsController],
   providers: [AchievementsService],
+  exports: [AchievementsService],
 })
 export class AchievementsModule {}

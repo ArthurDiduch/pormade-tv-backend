@@ -16,10 +16,14 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdatePasswordDto } from './dto/update-passwrod.dto';
 import { RequireRoles } from 'src/auth/require-role.guard';
+import { AchievementsService } from 'src/achievements/achievements.service';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly achievementsService: AchievementsService,
+  ) {}
 
   @HttpCode(201)
   @Post()
@@ -63,14 +67,24 @@ export class UsersController {
   }
 
   @HttpCode(201)
-  //@RequireRoles()
+  @RequireRoles()
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     try {
       const updatedUser = await this.usersService.update(id, updateUserDto);
 
       if (updateUserDto.lastvideo != null) {
-        console.log(`CHAMAR ROTA`);
+        const verify = await this.achievementsService.verifyAchievements(
+          id,
+          updatedUser.videosWatched,
+        );
+
+        if (verify != false) {
+          await this.achievementsService.createUserAchievements(verify);
+        } else {
+          console.log(verify);
+          console.log(`Sem conquista`);
+        }
       }
       return updatedUser;
     } catch (error) {

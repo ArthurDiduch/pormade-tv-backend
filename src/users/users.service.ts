@@ -131,7 +131,15 @@ export class UsersService {
       }
       return this.userRepository.findOneOrFail({
         where: { id: id },
-        select: ['id', 'name', 'email', 'createdAt', 'updatedAt', 'lastvideo'],
+        select: [
+          'id',
+          'name',
+          'email',
+          'createdAt',
+          'updatedAt',
+          'lastvideo',
+          'videosWatched',
+        ],
       });
     } catch (error) {
       throw new ConflictException();
