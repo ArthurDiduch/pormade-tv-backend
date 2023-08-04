@@ -26,7 +26,7 @@ export class FavoritesController {
     }
   }
 
-  @RequireRoles()
+  //@RequireRoles()
   @Get(':id')
   async find(@Param('id') id: number) {
     try {

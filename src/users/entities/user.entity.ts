@@ -1,4 +1,4 @@
-import { Video } from 'src/videos/entities/video.entity';
+import { Video } from 'src/video/videos/entities/video.entity';
 import {
   Column,
   CreateDateColumn,
@@ -11,8 +11,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { UserRole } from './user-role.enum';
-import { Favorite } from 'src/favorites/entities/favorite.entity';
-import { Achievement } from 'src/achievements/entities/achievement.entity';
+import { Favorite } from 'src/video/favorites/entities/favorite.entity';
+import { Achievement } from 'src/achievements/achievements/entities/achievement.entity';
 
 @Entity()
 export class User {

@@ -1,5 +1,5 @@
 import { User } from 'src/users/entities/user.entity';
-import { Video } from 'src/videos/entities/video.entity';
+import { Video } from 'src/video/videos/entities/video.entity';
 import {
   Column,
   Entity,

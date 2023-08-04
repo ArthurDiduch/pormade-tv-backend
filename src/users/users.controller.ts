@@ -16,7 +16,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdatePasswordDto } from './dto/update-passwrod.dto';
 import { RequireRoles } from 'src/auth/require-role.guard';
-import { AchievementsService } from 'src/achievements/achievements.service';
+import { AchievementsService } from 'src/achievements/achievements/achievements.service';
 
 @Controller('users')
 export class UsersController {
@@ -81,9 +81,6 @@ export class UsersController {
 
         if (verify != false) {
           await this.achievementsService.createUserAchievements(verify);
-        } else {
-          console.log(verify);
-          console.log(`Sem conquista`);
         }
       }
       return updatedUser;

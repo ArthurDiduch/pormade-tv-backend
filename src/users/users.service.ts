@@ -80,6 +80,7 @@ export class UsersService {
         where: { id: id },
         select: ['password'],
       });
+
       const password = user.password;
       const compare = bcrypt.compareSync(
         updatePassword.currentPassword,

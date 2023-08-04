@@ -1,5 +1,5 @@
-import { Category } from 'src/categories/entities/category.entity';
-import { Favorite } from 'src/favorites/entities/favorite.entity';
+import { Category } from 'src/achievements/categories/entities/category.entity';
+import { Favorite } from 'src/video/favorites/entities/favorite.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,
