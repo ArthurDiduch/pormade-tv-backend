@@ -1,10 +1,12 @@
 import { CourseCategory } from 'src/courses/course_category/entities/course_category.entity';
+import { CourseModule } from 'src/courses/course_module/entities/course_module.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -31,4 +33,7 @@ export class Course {
   @ManyToOne(() => CourseCategory, (courseCategory) => courseCategory.course)
   @JoinColumn({ name: 'category', referencedColumnName: 'id' })
   courseCategory: CourseCategory;
+
+  @OneToMany(() => CourseModule, (coursemodule) => coursemodule.courseModule)
+  module: CourseModule[];
 }

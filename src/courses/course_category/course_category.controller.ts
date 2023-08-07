@@ -19,7 +19,7 @@ import { UserRole } from 'src/users/entities/user-role.enum';
 export class CourseCategoryController {
   constructor(private readonly courseCategoryService: CourseCategoryService) {}
 
-  //@RequireRoles(UserRole.ADMIN)
+  @RequireRoles(UserRole.ADMIN)
   @Post()
   async create(@Body() createCourseCategoryDto: CreateCourseCategoryDto) {
     try {
@@ -29,7 +29,7 @@ export class CourseCategoryController {
     }
   }
 
-  //@RequireRoles()
+  @RequireRoles()
   @Get()
   async findAll() {
     try {
@@ -39,7 +39,7 @@ export class CourseCategoryController {
     }
   }
 
-  //@RequireRoles()
+  @RequireRoles()
   @Get(':id')
   async findOne(@Param('id') id: number) {
     try {
@@ -49,7 +49,7 @@ export class CourseCategoryController {
     }
   }
 
-  //@RequireRoles(UserRole.ADMIN)
+  @RequireRoles(UserRole.ADMIN)
   @Patch(':id')
   async update(
     @Param('id') id: number,
@@ -63,7 +63,7 @@ export class CourseCategoryController {
     }
   }
 
-  //@RequireRoles(UserRole.ADMIN)
+  @RequireRoles(UserRole.ADMIN)
   @Delete(':id')
   remove(@Param('id') id: number) {
     try {

@@ -9,6 +9,7 @@ import { FavoritesModule } from './video/favorites/favorites.module';
 import { AchievementsModule } from './achievements/achievements/achievements.module';
 import { CourseCategoryModule } from './courses/course_category/course_category.module';
 import { CoursesModule } from './courses/courses/courses.module';
+import { CourseModuleModule } from './courses/course_module/course_module.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { CoursesModule } from './courses/courses/courses.module';
     AchievementsModule,
     CourseCategoryModule,
     CoursesModule,
+    CourseModuleModule,
   ],
 })
 export class AppModule {}
