@@ -12,11 +12,14 @@ import {
 import { CourseModuleService } from './course_module.service';
 import { CreateCourseModuleDto } from './dto/create-course_module.dto';
 import { UpdateCourseModuleDto } from './dto/update-course_module.dto';
+import { RequireRoles } from 'src/auth/require-role.guard';
+import { UserRole } from 'src/users/entities/user-role.enum';
 
 @Controller('course-module')
 export class CourseModuleController {
   constructor(private readonly courseModuleService: CourseModuleService) {}
 
+  @RequireRoles(UserRole.ADMIN)
   @Post()
   async create(@Body() createCourseModuleDto: CreateCourseModuleDto) {
     try {
@@ -26,6 +29,7 @@ export class CourseModuleController {
     }
   }
 
+  @RequireRoles()
   @Get()
   async findAll() {
     try {
@@ -35,6 +39,7 @@ export class CourseModuleController {
     }
   }
 
+  @RequireRoles()
   @Get(':id')
   async findOne(@Param('id') id: number) {
     try {
@@ -44,6 +49,7 @@ export class CourseModuleController {
     }
   }
 
+  @RequireRoles(UserRole.ADMIN)
   @Patch(':id')
   async update(
     @Param('id') id: number,
@@ -57,6 +63,7 @@ export class CourseModuleController {
     }
   }
 
+  @RequireRoles(UserRole.ADMIN)
   @Delete(':id')
   async remove(@Param('id') id: number) {
     try {

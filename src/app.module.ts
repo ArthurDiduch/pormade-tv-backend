@@ -10,6 +10,7 @@ import { AchievementsModule } from './achievements/achievements/achievements.mod
 import { CourseCategoryModule } from './courses/course_category/course_category.module';
 import { CoursesModule } from './courses/courses/courses.module';
 import { CourseModuleModule } from './courses/course_module/course_module.module';
+import { ClasseModule } from './courses/classe/classe.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { CourseModuleModule } from './courses/course_module/course_module.module
     CourseCategoryModule,
     CoursesModule,
     CourseModuleModule,
+    ClasseModule,
   ],
 })
 export class AppModule {}

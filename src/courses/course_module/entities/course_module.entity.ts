@@ -1,9 +1,11 @@
+import { Classe } from 'src/courses/classe/entities/classe.entity';
 import { Course } from 'src/courses/courses/entities/course.entity';
 import {
   Column,
   Entity,
   JoinColumn,
-  ManyToMany,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -24,7 +26,10 @@ export class CourseModule {
   @Column()
   course: number;
 
-  @ManyToMany(() => Course, (course) => course.module)
+  @ManyToOne(() => Course, (course) => course.module)
   @JoinColumn({ name: 'course', referencedColumnName: 'id' })
   courseModule: Course;
+
+  @OneToMany(() => Classe, (classe) => classe.course_module)
+  classe: Classe[];
 }
