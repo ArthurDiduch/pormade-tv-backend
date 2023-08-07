@@ -41,19 +41,36 @@ export class CoursesController {
 
   //@RequireRoles()
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.coursesService.findOne(+id);
+  async findOne(@Param('id') id: number) {
+    try {
+      return await this.coursesService.findOne(id);
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
   //@RequireRoles(UserRole.ADMIN)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
-    return this.coursesService.update(+id, updateCourseDto);
+  async update(
+    @Param('id') id: number,
+    @Body() updateCourseDto: UpdateCourseDto,
+  ) {
+    try {
+      await this.coursesService.findOne(id);
+      return await this.coursesService.update(id, updateCourseDto);
+    } catch (error) {
+      throw new ConflictException();
+    }
   }
 
   //@RequireRoles(UserRole.ADMIN)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.coursesService.remove(+id);
+  async remove(@Param('id') id: number) {
+    try {
+      await this.coursesService.findOne(id);
+      return await this.coursesService.remove(id);
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 }

@@ -32,15 +32,33 @@ export class CoursesService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} course`;
+  async findOne(id: number) {
+    try {
+      return await this.courseRepository.findOneOrFail({ where: { id } });
+    } catch (error) {
+      throw new ConflictException();
+    }
   }
 
-  update(id: number, updateCourseDto: UpdateCourseDto) {
-    return `This action updates a #${id} course`;
+  async update(id: number, updateCourseDto: UpdateCourseDto) {
+    try {
+      const updatedCourse = await this.courseRepository.update(
+        id,
+        updateCourseDto,
+      );
+      if (!updatedCourse) {
+        throw new ConflictException();
+      }
+    } catch (error) {
+      throw new ConflictException();
+    }
   }
 
   remove(id: number) {
-    return `This action removes a #${id} course`;
+    try {
+      this.courseRepository.delete({ id });
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 }

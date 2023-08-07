@@ -15,5 +15,5 @@ export class UpdateCourseDto {
 
   @IsOptional()
   @IsNumber()
-  courseCategory: number;
+  category: number;
 }
