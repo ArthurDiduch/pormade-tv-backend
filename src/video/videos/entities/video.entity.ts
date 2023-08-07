@@ -1,4 +1,4 @@
-import { Category } from 'src/achievements/categories/entities/category.entity';
+import { Category } from 'src/video/categories/entities/category.entity';
 import { Favorite } from 'src/video/favorites/entities/favorite.entity';
 import { User } from 'src/users/entities/user.entity';
 import {

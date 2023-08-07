@@ -14,8 +14,8 @@ import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
 import { RequireRoles } from 'src/auth/require-role.guard';
 import { UserRole } from 'src/users/entities/user-role.enum';
-import { CategoriesService } from 'src/achievements/categories/categories.service';
-import { CreateCategoryDto } from 'src/achievements/categories/dto/create-category.dto';
+import { CategoriesService } from 'src/video/categories/categories.service';
+import { CreateCategoryDto } from 'src/video/categories/dto/create-category.dto';
 
 @Controller('videos')
 export class VideosController {

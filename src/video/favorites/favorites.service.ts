@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Favorite } from './entities/favorite.entity';
 import { Console } from 'console';
+import { create } from 'domain';
 
 @Injectable()
 export class FavoritesService {
@@ -48,7 +49,7 @@ export class FavoritesService {
   async find(id: number) {
     try {
       const favorites = await this.favoriteRepository
-        .query(`SELECT us.id, us.name,vd.image, vd.title, vd.video_id
+        .query(`SELECT fv.id, us.name,vd.image, vd.title, vd.video_id
       FROM favorite fv 
       INNER JOIN PUBLIC.user as us on fv.user = us.id
       INNER JOIN video vd on fv.video = vd.id where us.id = ${id}
@@ -63,15 +64,16 @@ export class FavoritesService {
     }
   }
 
-  async remove(id: number) {
+  async remove(removefavoriteDto) {
     try {
-      const deletedFavorite = await this.favoriteRepository.findOneOrFail({
-        where: { id: id },
+      const deletedFavorite = await this.favoriteRepository.query(
+        `SELECT fv.id FROM public.favorite fv INNER JOIN public.user us on us.id = fv.user where fv.user = ${removefavoriteDto.idUser} and fv.video= ${removefavoriteDto.idVideo};`,
+      );
+      const id = deletedFavorite[0].id;
+
+      await this.favoriteRepository.delete({
+        id: id,
       });
-      if (!deletedFavorite) {
-        throw new ConflictException();
-      }
-      this.favoriteRepository.delete({ id: id });
     } catch (error) {
       throw new NotFoundException();
     }

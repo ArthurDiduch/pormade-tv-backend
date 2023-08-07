@@ -11,6 +11,7 @@ import {
 import { FavoritesService } from './favorites.service';
 import { CreateFavoriteDto } from './dto/create-favorite.dto';
 import { RequireRoles } from 'src/auth/require-role.guard';
+import { removeFavoriteDTO } from './dto/remove-favorite.dto';
 
 @Controller('favorites')
 export class FavoritesController {
@@ -36,11 +37,14 @@ export class FavoritesController {
     }
   }
 
-  @RequireRoles()
+  //@RequireRoles()
   @Delete(':id')
-  remove(@Param('id') id: number) {
+  remove(
+    @Param('id') id: number,
+    @Body() removefavoriteDto: removeFavoriteDTO,
+  ) {
     try {
-      return this.favoritesService.remove(id);
+      return this.favoritesService.remove(removefavoriteDto);
     } catch (error) {
       throw new NotFoundException();
     }
