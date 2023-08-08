@@ -1,15 +1,15 @@
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class UpdateContentClassDto {
+export class UpdateActivityDto {
   @IsOptional()
   @IsString()
-  content: Buffer;
+  name: string;
+
+  @IsOptional()
+  @IsString()
+  description: string;
 
   @IsOptional()
   @IsNumber()
-  classe: number;
-
-  @IsOptional()
-  @IsNumber()
-  order: number;
+  contentClass: number;
 }

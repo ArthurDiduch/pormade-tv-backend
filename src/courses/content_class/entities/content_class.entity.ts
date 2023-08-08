@@ -1,9 +1,11 @@
+import { Activity } from 'src/courses/activities/entities/activity.entity';
 import { Classe } from 'src/courses/classe/entities/classe.entity';
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -12,8 +14,8 @@ export class ContentClass {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  content: string;
+  @Column({ type: 'bytea' })
+  content: Buffer;
 
   @Column()
   classe: number;
@@ -24,4 +26,7 @@ export class ContentClass {
   @ManyToOne(() => Classe, (classe) => classe.contentClass)
   @JoinColumn({ name: 'classe', referencedColumnName: 'id' })
   class: Classe;
+
+  @OneToMany(() => Activity, (activity) => activity.contentClasses)
+  activity: Activity[];
 }

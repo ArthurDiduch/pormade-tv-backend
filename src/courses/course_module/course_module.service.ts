@@ -50,6 +50,13 @@ export class CourseModuleService {
 
   async update(id: number, updateCourseModuleDto: UpdateCourseModuleDto) {
     try {
+      const alreadyExists = await this.courseModuloRepository.query(
+        `SELECT * FROM PUBLIC.course_module where PUBLIC.course_module.course = ${updateCourseModuleDto.course} and PUBLIC.course_module.order = ${updateCourseModuleDto.order}`,
+      );
+
+      if (alreadyExists[0] != null) {
+        throw new ConflictException();
+      }
       await this.courseModuloRepository.update(id, updateCourseModuleDto);
     } catch (error) {
       throw new ConflictException();

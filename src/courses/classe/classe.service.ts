@@ -49,6 +49,13 @@ export class ClasseService {
 
   async update(id: number, updateClasseDto: UpdateClasseDto) {
     try {
+      const alreadyExists = await this.classeRepository.query(
+        `SELECT * FROM PUBLIC.classe WHERE classe.module = ${updateClasseDto.module} and classe.order = ${updateClasseDto.order}`,
+      );
+
+      if (alreadyExists[0] != null) {
+        throw new ConflictException();
+      }
       return this.classeRepository.update(id, updateClasseDto);
     } catch (error) {
       throw new ConflictException();

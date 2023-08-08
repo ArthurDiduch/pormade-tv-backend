@@ -14,7 +14,6 @@ import { CreateContentClassDto } from './dto/create-content_class.dto';
 import { UpdateContentClassDto } from './dto/update-content_class.dto';
 import { RequireRoles } from 'src/auth/require-role.guard';
 import { UserRole } from 'src/users/entities/user-role.enum';
-import { NotFoundError } from 'rxjs';
 
 @Controller('content-class')
 export class ContentClassController {

@@ -34,7 +34,7 @@ export class ContentClassService {
 
   async findAll() {
     try {
-      await this.contentClassRepository.find();
+      return await this.contentClassRepository.find();
     } catch (error) {
       throw new NotFoundException();
     }
@@ -50,6 +50,13 @@ export class ContentClassService {
 
   async update(id: number, updateContentClassDto: UpdateContentClassDto) {
     try {
+      const alreadyExists = await this.contentClassRepository.query(
+        `SELECT * FROM PUBLIC.content_class WHERE content_class.classe = ${updateContentClassDto.classe} and content_class.order = ${updateContentClassDto.order}`,
+      );
+
+      if (alreadyExists[0] != null) {
+        throw new ConflictException();
+      }
       await this.contentClassRepository.update(id, updateContentClassDto);
     } catch (error) {
       throw new ConflictException();
