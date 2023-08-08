@@ -1,34 +1,76 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ConflictException,
+  NotFoundException,
+  HttpException,
+} from '@nestjs/common';
 import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
+import { RequireRoles } from 'src/auth/require-role.guard';
+import { UserRole } from 'src/users/entities/user-role.enum';
 
 @Controller('questions')
 export class QuestionsController {
   constructor(private readonly questionsService: QuestionsService) {}
 
+  //@RequireRoles(UserRole.ADMIN)
   @Post()
-  create(@Body() createQuestionDto: CreateQuestionDto) {
-    return this.questionsService.create(createQuestionDto);
+  async create(@Body() createQuestionDto: CreateQuestionDto) {
+    try {
+      return await this.questionsService.create(createQuestionDto);
+    } catch (error) {
+      throw new ConflictException();
+    }
   }
 
+  //@RequireRoles(UserRole.ADMIN)
   @Get()
-  findAll() {
-    return this.questionsService.findAll();
+  async findAll() {
+    try {
+      return await this.questionsService.findAll();
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
+  //@RequireRoles(UserRole.ADMIN)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.questionsService.findOne(+id);
+  async findOne(@Param('id') id: number) {
+    try {
+      return await this.questionsService.findOne(id);
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
+  //@RequireRoles(UserRole.ADMIN)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuestionDto: UpdateQuestionDto) {
-    return this.questionsService.update(+id, updateQuestionDto);
+  async update(
+    @Param('id') id: number,
+    @Body() updateQuestionDto: UpdateQuestionDto,
+  ) {
+    try {
+      await this.questionsService.findOne(id);
+      return await this.questionsService.update(id, updateQuestionDto);
+    } catch (error) {
+      throw new HttpException(error.status, error.response);
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.questionsService.remove(+id);
+  async remove(@Param('id') id: number) {
+    try {
+      await this.questionsService.findOne(id);
+      return await this.questionsService.remove(id);
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 }

@@ -1,26 +1,58 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Question } from './entities/question.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class QuestionsService {
-  create(createQuestionDto: CreateQuestionDto) {
-    return 'This action adds a new question';
+  constructor(
+    @InjectRepository(Question)
+    private readonly questionRepository: Repository<Question>,
+  ) {}
+
+  async create(createQuestionDto: CreateQuestionDto) {
+    try {
+      await this.questionRepository.save(createQuestionDto);
+    } catch (error) {
+      throw new ConflictException();
+    }
   }
 
-  findAll() {
-    return `This action returns all questions`;
+  async findAll() {
+    try {
+      return await this.questionRepository.find();
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} question`;
+  async findOne(id: number) {
+    try {
+      return await this.questionRepository.findOneOrFail({ where: { id } });
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
-  update(id: number, updateQuestionDto: UpdateQuestionDto) {
-    return `This action updates a #${id} question`;
+  async update(id: number, updateQuestionDto: UpdateQuestionDto) {
+    try {
+      await this.questionRepository.update(id, updateQuestionDto);
+    } catch (error) {
+      throw new ConflictException();
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} question`;
+  async remove(id: number) {
+    try {
+      return await this.questionRepository.delete({ id });
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 }
