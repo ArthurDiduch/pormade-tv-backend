@@ -1,9 +1,11 @@
+import { ContentClass } from 'src/courses/content_class/entities/content_class.entity';
 import { CourseModule } from 'src/courses/course_module/entities/course_module.entity';
 import {
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -27,4 +29,7 @@ export class Classe {
   @ManyToOne(() => CourseModule, (coursemodule) => coursemodule.classe)
   @JoinColumn({ name: 'module', referencedColumnName: 'id' })
   course_module: CourseModule;
+
+  @OneToMany(() => ContentClass, (contentClass) => contentClass.class)
+  contentClass: ContentClass;
 }

@@ -11,6 +11,7 @@ import { CourseCategoryModule } from './courses/course_category/course_category.
 import { CoursesModule } from './courses/courses/courses.module';
 import { CourseModuleModule } from './courses/course_module/course_module.module';
 import { ClasseModule } from './courses/classe/classe.module';
+import { ContentClassModule } from './courses/content_class/content_class.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ClasseModule } from './courses/classe/classe.module';
     CoursesModule,
     CourseModuleModule,
     ClasseModule,
+    ContentClassModule,
   ],
 })
 export class AppModule {}

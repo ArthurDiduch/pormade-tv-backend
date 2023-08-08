@@ -29,7 +29,7 @@ export class CourseModuleController {
     }
   }
 
-  @RequireRoles()
+  // @RequireRoles()
   @Get()
   async findAll() {
     try {
@@ -39,7 +39,7 @@ export class CourseModuleController {
     }
   }
 
-  @RequireRoles()
+  //@RequireRoles()
   @Get(':id')
   async findOne(@Param('id') id: number) {
     try {

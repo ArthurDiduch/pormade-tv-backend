@@ -8,7 +8,6 @@ import { UpdateClasseDto } from './dto/update-classe.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Classe } from './entities/classe.entity';
 import { Repository } from 'typeorm';
-import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class ClasseService {
@@ -19,7 +18,13 @@ export class ClasseService {
 
   async create(createClasseDto: CreateClasseDto) {
     try {
-      //VEFICAR A ORDEM
+      const alreadyExists = await this.classeRepository.query(
+        `SELECT * FROM PUBLIC.classe WHERE classe.module = ${createClasseDto.module} and classe.order = ${createClasseDto.order}`,
+      );
+
+      if (alreadyExists[0] != null) {
+        throw new ConflictException();
+      }
       return await this.classeRepository.save(createClasseDto);
     } catch (error) {
       throw new ConflictException();
