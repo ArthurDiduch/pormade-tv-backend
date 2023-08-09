@@ -21,9 +21,11 @@ export class CourseModuleController {
 
   @RequireRoles(UserRole.ADMIN)
   @Post()
-  async create(@Body() createCourseModuleDto: CreateCourseModuleDto) {
+  async create(@Body() createCourseModuleDto: CreateCourseModuleDto[]) {
     try {
-      return await this.courseModuleService.create(createCourseModuleDto);
+      for (let i = 0; createCourseModuleDto.length; i++) {
+        await this.courseModuleService.create(createCourseModuleDto[i]);
+      }
     } catch (error) {
       throw new ConflictException();
     }

@@ -22,15 +22,17 @@ export class QuestionsController {
 
   //@RequireRoles(UserRole.ADMIN)
   @Post()
-  async create(@Body() createQuestionDto: CreateQuestionDto) {
+  async create(@Body() createQuestionDto: CreateQuestionDto[]) {
     try {
-      return await this.questionsService.create(createQuestionDto);
+      for (let i = 0; i < createQuestionDto.length; i++) {
+        await this.questionsService.create(createQuestionDto[i]);
+      }
     } catch (error) {
       throw new ConflictException();
     }
   }
 
-  //@RequireRoles(UserRole.ADMIN)
+  //@RequireRoles()
   @Get()
   async findAll() {
     try {
@@ -40,7 +42,7 @@ export class QuestionsController {
     }
   }
 
-  //@RequireRoles(UserRole.ADMIN)
+  //@RequireRoles()
   @Get(':id')
   async findOne(@Param('id') id: number) {
     try {

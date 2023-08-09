@@ -14,6 +14,7 @@ import { ClasseModule } from './courses/classe/classe.module';
 import { ContentClassModule } from './courses/content_class/content_class.module';
 import { ActivitiesModule } from './courses/activities/activities.module';
 import { QuestionsModule } from './courses/questions/questions.module';
+import { ResponseQuestionsModule } from './courses/response_questions/response_questions.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { QuestionsModule } from './courses/questions/questions.module';
     ContentClassModule,
     ActivitiesModule,
     QuestionsModule,
+    ResponseQuestionsModule,
   ],
 })
 export class AppModule {}
