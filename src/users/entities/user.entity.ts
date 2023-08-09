@@ -13,6 +13,7 @@ import {
 import { UserRole } from './user-role.enum';
 import { Favorite } from 'src/video/favorites/entities/favorite.entity';
 import { Achievement } from 'src/achievements/achievements/entities/achievement.entity';
+import { CourseEnrollment } from 'src/courses/course_enrollment/entities/course_enrollment.entity';
 
 @Entity()
 export class User {
@@ -65,4 +66,10 @@ export class User {
 
   @ManyToMany(() => Achievement, (achievement) => achievement.id_user)
   id_achievement: Achievement;
+
+  @OneToMany(
+    () => CourseEnrollment,
+    (courseEnrollment) => courseEnrollment.id_user,
+  )
+  courseEnrollment: CourseEnrollment[];
 }

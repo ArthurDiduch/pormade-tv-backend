@@ -15,7 +15,7 @@ import { ContentClassModule } from './courses/content_class/content_class.module
 import { ActivitiesModule } from './courses/activities/activities.module';
 import { QuestionsModule } from './courses/questions/questions.module';
 import { ResponseQuestionsModule } from './courses/response_questions/response_questions.module';
-
+import { CourseEnrollmentModule } from './courses/course_enrollment/course_enrollment.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeOrmConfig),
@@ -33,6 +33,7 @@ import { ResponseQuestionsModule } from './courses/response_questions/response_q
     ActivitiesModule,
     QuestionsModule,
     ResponseQuestionsModule,
+    CourseEnrollmentModule,
   ],
 })
 export class AppModule {}

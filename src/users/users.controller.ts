@@ -36,7 +36,7 @@ export class UsersController {
   }
 
   @HttpCode(200)
-  @RequireRoles()
+  // @RequireRoles()
   @Get()
   findAll() {
     return this.usersService.findAll();

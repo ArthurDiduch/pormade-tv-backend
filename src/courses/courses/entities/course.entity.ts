@@ -1,4 +1,5 @@
 import { CourseCategory } from 'src/courses/course_category/entities/course_category.entity';
+import { CourseEnrollment } from 'src/courses/course_enrollment/entities/course_enrollment.entity';
 import { CourseModule } from 'src/courses/course_module/entities/course_module.entity';
 import {
   Column,
@@ -36,4 +37,10 @@ export class Course {
 
   @OneToMany(() => CourseModule, (coursemodule) => coursemodule.courseModule)
   module: CourseModule[];
+
+  @OneToMany(
+    () => CourseEnrollment,
+    (courseEnrollment) => courseEnrollment.id_course,
+  )
+  courseEnrollment: CourseEnrollment[];
 }
