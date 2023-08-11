@@ -19,7 +19,7 @@ import { UserRole } from 'src/users/entities/user-role.enum';
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
 
-  @RequireRoles(UserRole.ADMIN)
+  // @RequireRoles(UserRole.ADMIN)
   @Post()
   async create(@Body() createCourseDto: CreateCourseDto) {
     try {
@@ -29,7 +29,7 @@ export class CoursesController {
     }
   }
 
-  @RequireRoles()
+  //@RequireRoles()
   @Get()
   async findAll() {
     try {
@@ -44,6 +44,14 @@ export class CoursesController {
   async findOne(@Param('id') id: number) {
     try {
       return await this.coursesService.findOne(id);
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
+  @Get('/module/:id')
+  async findModule(@Param('id') id: number) {
+    try {
+      return await this.coursesService.findModule(id);
     } catch (error) {
       throw new NotFoundException();
     }

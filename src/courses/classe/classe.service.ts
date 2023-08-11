@@ -41,7 +41,19 @@ export class ClasseService {
 
   async findOne(id: number) {
     try {
-      return await this.classeRepository.findOneOrFail({ where: { id } });
+      return await this.classeRepository.findOneOrFail({
+        where: { id },
+        relations: { course_module: true },
+      });
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
+  async findModule(id: number) {
+    try {
+      return await this.classeRepository.query(
+        `SELECT * FROM public.classe WHERE classe.module=${id}`,
+      );
     } catch (error) {
       throw new NotFoundException();
     }

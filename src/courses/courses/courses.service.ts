@@ -18,6 +18,10 @@ export class CoursesService {
 
   async create(createCourseDto: CreateCourseDto) {
     try {
+      const category = await this.courseRepository.query(
+        `SELECT id FROM public.course_category WHERE course_category.name = '${createCourseDto.category}'`,
+      );
+      createCourseDto.category = category[0].id;
       return await this.courseRepository.save(createCourseDto);
     } catch (error) {
       throw new ConflictException();
@@ -37,6 +41,15 @@ export class CoursesService {
       return await this.courseRepository.findOneOrFail({ where: { id } });
     } catch (error) {
       throw new ConflictException();
+    }
+  }
+  async findModule(id: number) {
+    try {
+      return await this.courseRepository.query(
+        `SELECT * FROM public.course_module WHERE course_module.course = ${id}`,
+      );
+    } catch (error) {
+      throw new NotFoundException();
     }
   }
 

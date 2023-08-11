@@ -14,6 +14,7 @@ import { CreateClasseDto } from './dto/create-classe.dto';
 import { UpdateClasseDto } from './dto/update-classe.dto';
 import { RequireRoles } from 'src/auth/require-role.guard';
 import { UserRole } from 'src/users/entities/user-role.enum';
+import { get } from 'http';
 
 @Controller('classe')
 export class ClasseController {
@@ -44,6 +45,16 @@ export class ClasseController {
   async findOne(@Param('id') id: number) {
     try {
       return await this.classeService.findOne(id);
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
+
+  //@RequireRoles()
+  @Get('/module/:id')
+  async findModule(@Param('id') id: number) {
+    try {
+      return await this.classeService.findModule(id);
     } catch (error) {
       throw new NotFoundException();
     }

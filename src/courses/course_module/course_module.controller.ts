@@ -19,12 +19,12 @@ import { UserRole } from 'src/users/entities/user-role.enum';
 export class CourseModuleController {
   constructor(private readonly courseModuleService: CourseModuleService) {}
 
-  @RequireRoles(UserRole.ADMIN)
+  //@RequireRoles(UserRole.ADMIN)
   @Post()
   async create(@Body() createCourseModuleDto: CreateCourseModuleDto[]) {
     try {
       for (let i = 0; createCourseModuleDto.length; i++) {
-        await this.courseModuleService.create(createCourseModuleDto[i]);
+        return await this.courseModuleService.create(createCourseModuleDto[i]);
       }
     } catch (error) {
       throw new ConflictException();

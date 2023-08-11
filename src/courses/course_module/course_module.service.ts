@@ -21,12 +21,11 @@ export class CourseModuleService {
       const alreadyExists = await this.courseModuloRepository.query(
         `SELECT * FROM PUBLIC.course_module where PUBLIC.course_module.course = ${createCourseModuleDto.course} and PUBLIC.course_module.order = ${createCourseModuleDto.order}`,
       );
-
       if (alreadyExists[0] != null) {
         throw new ConflictException();
       }
 
-      return await this.courseModuloRepository.save(createCourseModuleDto);
+      return this.courseModuloRepository.save(createCourseModuleDto);
     } catch (error) {
       throw new ConflictException();
     }

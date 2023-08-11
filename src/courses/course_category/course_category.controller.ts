@@ -29,7 +29,7 @@ export class CourseCategoryController {
     }
   }
 
-  @RequireRoles()
+  // @RequireRoles()
   @Get()
   async findAll() {
     try {
