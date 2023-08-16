@@ -49,6 +49,15 @@ export class ContentClassController {
     }
   }
 
+  @Get('/findClasse/:id')
+  async findByClass(@Param('id') id: number) {
+    try {
+      return await this.contentClassService.findByClass(id);
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
+
   //@RequireRoles(UserRole.ADMIN)
   @Patch(':id')
   async update(

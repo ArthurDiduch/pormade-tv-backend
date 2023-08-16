@@ -47,6 +47,15 @@ export class ContentClassService {
       throw new NotFoundException();
     }
   }
+  async findByClass(id: number) {
+    try {
+      return await this.contentClassRepository.query(
+        `SELECT id, classe, "order", content FROM PUBLIC.content_class WHERE classe = ${id} ;`,
+      );
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
 
   async update(id: number, updateContentClassDto: UpdateContentClassDto) {
     try {
