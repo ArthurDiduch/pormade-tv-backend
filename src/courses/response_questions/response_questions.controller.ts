@@ -8,7 +8,6 @@ import {
   Delete,
   ConflictException,
   NotFoundException,
-  HttpException,
 } from '@nestjs/common';
 import { ResponseQuestionsService } from './response_questions.service';
 import { CreateResponseQuestionDto } from './dto/create-response_question.dto';
@@ -24,13 +23,9 @@ export class ResponseQuestionsController {
 
   //@RequireRoles(UserRole.ADMIN)
   @Post()
-  async create(@Body() createResponseQuestionDto: CreateResponseQuestionDto[]) {
+  async create(@Body() createResponseQuestionDto: CreateResponseQuestionDto) {
     try {
-      for (let i = 0; i < createResponseQuestionDto.length; i++) {
-        await this.responseQuestionsService.create(
-          createResponseQuestionDto[i],
-        );
-      }
+      await this.responseQuestionsService.create(createResponseQuestionDto);
     } catch (error) {
       throw new ConflictException();
     }

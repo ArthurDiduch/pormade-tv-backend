@@ -18,7 +18,9 @@ export class ActivitiesService {
 
   async create(createActivityDto: CreateActivityDto) {
     try {
-      await this.activityRepository.save(createActivityDto);
+      const activity = await this.activityRepository.save(createActivityDto);
+
+      return activity.id;
     } catch (error) {
       throw new ConflictException();
     }

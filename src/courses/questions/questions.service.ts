@@ -18,7 +18,8 @@ export class QuestionsService {
 
   async create(createQuestionDto: CreateQuestionDto) {
     try {
-      await this.questionRepository.save(createQuestionDto);
+      const question = await this.questionRepository.save(createQuestionDto);
+      return question.id;
     } catch (error) {
       throw new ConflictException();
     }

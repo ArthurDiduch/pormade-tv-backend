@@ -13,19 +13,52 @@ import {
 import { ActivitiesService } from './activities.service';
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
+import { QuestionsService } from '../questions/questions.service';
 import { RequireRoles } from 'src/auth/require-role.guard';
 import { UserRole } from 'src/users/entities/user-role.enum';
 import { NotFoundError } from 'rxjs';
+import { CreateQuestionDto } from '../questions/dto/create-question.dto';
+import { ResponseQuestionsService } from '../response_questions/response_questions.service';
+import { ResponseQuestion } from '../response_questions/entities/response_question.entity';
+import { CreateResponseQuestionDto } from '../response_questions/dto/create-response_question.dto';
 
 @Controller('activities')
 export class ActivitiesController {
-  constructor(private readonly activitiesService: ActivitiesService) {}
+  constructor(
+    private readonly activitiesService: ActivitiesService,
+    private readonly questionService: QuestionsService,
+    private readonly responseService: ResponseQuestionsService,
+  ) {}
 
   //@RequireRoles(UserRole.ADMIN)
   @Post()
-  async create(@Body() createActivityDto: CreateActivityDto) {
+  async create(@Body() createActivityDto) {
     try {
-      return await this.activitiesService.create(createActivityDto);
+      const activity = new CreateActivityDto();
+
+      activity.name = createActivityDto.name;
+      activity.description = createActivityDto.description;
+      activity.contentClass = createActivityDto.contentClass;
+
+      const activityId = await this.activitiesService.create(activity);
+
+      const question = new CreateQuestionDto();
+      question.question = createActivityDto.test.question;
+      question.activity = activityId;
+
+      const questionId = await this.questionService.create(question);
+
+      const responseQuestion = new CreateResponseQuestionDto();
+
+      for (let i = 0; i < createActivityDto.test.responses.length; i++) {
+        responseQuestion.response =
+          createActivityDto.test.responses[i].response;
+        responseQuestion.question = questionId;
+        responseQuestion.status =
+          createActivityDto.test.responses[i].status.status;
+
+        await this.responseService.create(responseQuestion);
+      }
     } catch (error) {
       throw new ConflictException();
     }

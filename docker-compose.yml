@@ -13,13 +13,25 @@ services:
       POSTGRES_USER: tvpormade
       POSTGRES_PASSWORD: testeroot
 
-  pgadmin:
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: 'tv@pormade.com'
-      PGADMIN_DEFAULT_PASSWORD: 'testeroot123'
+  adminer:
+    image: adminer:latest
+    container_name: adminer-containers
     ports:
-      - '8085:80'
+      - '8080:8080'
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: testeroot
+      MYSQL_DATABASE: typeorm
+      MYSQL_USER: mateus
+      MYSQL_PASSWORD: testeroot
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-data:/var/lib/mysql
 
 volumes:
   pg-data:
+  mysql-data:
