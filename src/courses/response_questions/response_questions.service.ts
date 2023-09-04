@@ -26,7 +26,9 @@ export class ResponseQuestionsService {
 
   async findAll() {
     try {
-      return await this.responseQuestionRepository.find();
+      return await this.responseQuestionRepository.find({
+        relations: { id_question: true },
+      });
     } catch (error) {
       throw new NotFoundException();
     }

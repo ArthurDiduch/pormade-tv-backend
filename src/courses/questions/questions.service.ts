@@ -35,7 +35,17 @@ export class QuestionsService {
 
   async findOne(id: number) {
     try {
-      return await this.questionRepository.findOneOrFail({ where: { id } });
+      const question = await this.questionRepository.findOneOrFail({
+        where: { id },
+      });
+      const responseQuestion = await this.questionRepository.query(
+        `SELECT * FROM PUBLIC."response_question" WHERE "response_question"."question" = ${id}`,
+      );
+      const questionResponses = {
+        question,
+        response: responseQuestion,
+      };
+      return questionResponses;
     } catch (error) {
       throw new NotFoundException();
     }

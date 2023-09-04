@@ -83,6 +83,15 @@ export class ActivitiesController {
       throw new NotFoundException();
     }
   }
+  //@RequireRoles()
+  @Get('/questions/:id')
+  async findAllQuestions(@Param('id') id: number) {
+    try {
+      return await this.activitiesService.findAllQuestions(id);
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
 
   //@RequireRoles(UserRole.ADMIN)
   @Patch(':id')
