@@ -3,24 +3,23 @@ import {
   HttpException,
   Injectable,
   NotFoundException,
-} from '@nestjs/common';
-import { CreateVideoDto } from './dto/create-video.dto';
-import { UpdateVideoDto } from './dto/update-video.dto';
-import { Video } from './entities/video.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+} from "@nestjs/common";
+import { CreateVideoDto } from "./dto/create-video.dto";
+import { UpdateVideoDto } from "./dto/update-video.dto";
+import { Video } from "./entities/video.entity";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 
 @Injectable()
 export class VideosService {
   constructor(
     @InjectRepository(Video)
-    private readonly videoRepository: Repository<Video>,
+    private readonly videoRepository: Repository<Video>
   ) {}
 
   async create(createVideoDto: CreateVideoDto) {
     try {
-      const newVideo = await this.videoRepository.save(createVideoDto);
-      return newVideo;
+      return await this.videoRepository.save(createVideoDto);
     } catch (error) {
       console.error(error);
       throw new ConflictException();
@@ -40,10 +39,9 @@ export class VideosService {
 
   async findByCategory(category: number) {
     try {
-      const videos = await this.videoRepository.find({
+      return await this.videoRepository.find({
         where: { category },
       });
-      return videos;
     } catch (error) {
       throw new NotFoundException();
     }
@@ -52,7 +50,7 @@ export class VideosService {
   async findByTitle(title: string) {
     try {
       const video = await this.videoRepository.query(
-        `SELECT * FROM PUBLIC.video WHERE title='${title}'`,
+        `SELECT * FROM PUBLIC.video WHERE title='${title}'`
       );
       if (!video) {
         throw new NotFoundException();
@@ -65,15 +63,16 @@ export class VideosService {
 
   async update(id: number, updateVideoDto: UpdateVideoDto) {
     try {
+      const findVideo = this.videoRepository.find({ where: { id: id } });
+
+      if (!findVideo) throw new NotFoundException();
+
       const updatedVideo = await this.videoRepository.update(
         id,
-        updateVideoDto,
+        updateVideoDto
       );
 
-      if (!updatedVideo) {
-        throw new ConflictException();
-      }
-      return this.videoRepository.find({ where: { id: id } });
+      return findVideo;
     } catch (error) {
       throw new HttpException(error.status, error.message);
     }

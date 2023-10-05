@@ -2,18 +2,18 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
-} from '@nestjs/common';
-import { CreateQuestionDto } from './dto/create-question.dto';
-import { UpdateQuestionDto } from './dto/update-question.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Question } from './entities/question.entity';
-import { Repository } from 'typeorm';
+} from "@nestjs/common";
+import { CreateQuestionDto } from "./dto/create-question.dto";
+import { UpdateQuestionDto } from "./dto/update-question.dto";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Question } from "./entities/question.entity";
+import { Repository } from "typeorm";
 
 @Injectable()
 export class QuestionsService {
   constructor(
     @InjectRepository(Question)
-    private readonly questionRepository: Repository<Question>,
+    private readonly questionRepository: Repository<Question>
   ) {}
 
   async create(createQuestionDto: CreateQuestionDto) {
@@ -39,7 +39,7 @@ export class QuestionsService {
         where: { id },
       });
       const responseQuestion = await this.questionRepository.query(
-        `SELECT * FROM PUBLIC."response_question" WHERE "response_question"."question" = ${id}`,
+        `SELECT * FROM PUBLIC."response_question" WHERE "response_question"."question" = ${id}`
       );
       const questionResponses = {
         question,
